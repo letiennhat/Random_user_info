@@ -1,0 +1,1 @@
+Chạy hàm main.py -> curl http://0.0.0.0/10 ( Tạo 10 users ngẫu nhiên )
