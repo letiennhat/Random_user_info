@@ -12,7 +12,7 @@ class RunServer:
         return jsonify(GI.jsonload())
         #return str(GI.jsonload())
     def run(self):
-        app.run('0.0.0.0',port=8080,debug=1)
+        app.run('0.0.0.0',port=80,debug=1)
 run = RunServer()
 run.run()
                
