@@ -1,12 +1,13 @@
 from faker import Faker
 from faker.providers import internet
 import numpy as np
-import sys
 import json
 import time
+from flask import Flask, jsonify
 fake = Faker('vi_VN')
-#Faker.seed(447)
 fake.add_provider(internet)
+app = Flask(__name__)
+
 class Generation_info:
     def __init__(self,number):
         self.number = number
@@ -44,9 +45,24 @@ class Generation_info:
         with open('users.jon','a') as f:
             f.write(str(json_strings))
         return json_strings
-    def name(key):
-        return self.begin()[key]['name']
-    def email(key):
-        return self.begin()[key]['email']
-    def phone_number(key):
-        return self.begin()[key]['phone number']
+    def name(date_,key):
+        return self.begin()[date_][0][key]['name']
+    def email(date_,key):
+        return self.begin()[date_][0][key]['email']
+    def phone_number(date_,key):
+        return self.begin()[date_][0][key]['phone number']
+class Server(Generation_info):
+    def __init__(self,app):
+        self.app = app
+        #Generation_info.__init__(self,number)
+    @app.route('/<int:name>',methods = ['GET','POST'])
+    def index(name):
+        GI = Generation_info(name)
+        return jsonify(GI.jsonload())
+    def run(self):
+        self.app.run('0.0.0.0',port=80,debug=1)
+if __name__=="__main__":
+    server = Server(app)
+    server.run()
+
+         
